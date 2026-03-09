@@ -38,6 +38,13 @@ class SupabaseService {
     return UserModel.fromJson(data);
   }
 
+  Future<void> updateFullName(String userId, String fullName) async {
+    await _client
+        .from('users')
+        .update({'full_name': fullName})
+        .eq('id', userId);
+  }
+
   Future<bool> emailExists(String email) async {
     final data = await _client
         .from('users')

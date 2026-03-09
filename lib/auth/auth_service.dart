@@ -63,6 +63,18 @@ class AuthService extends ChangeNotifier {
     }
   }
 
+  Future<String?> updateFullName(String newName) async {
+    if (_user == null) return 'Not logged in.';
+    try {
+      await SupabaseService.instance.updateFullName(_user!.id, newName);
+      final updated = UserModel(id: _user!.id, fullName: newName, email: _user!.email);
+      await _saveSession(updated);
+      return null;
+    } catch (e) {
+      return 'Update failed: $e';
+    }
+  }
+
   Future<void> signOut() async {
     _user = null;
     final prefs = await SharedPreferences.getInstance();

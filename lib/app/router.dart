@@ -19,9 +19,7 @@ GoRouter buildRouter(AuthService authService) {
       final isPublic = publicPaths.contains(location);
 
       if (!isLoggedIn && !isPublic) return '/login';
-      if (isLoggedIn && (location == '/login' || location == '/signup')) {
-        return '/dashboard';
-      }
+      if (isLoggedIn && isPublic) return '/dashboard';
       return null;
     },
     routes: [

@@ -54,12 +54,13 @@ class ProfileScreen extends StatelessWidget {
                 style: const TextStyle(color: kTextMuted, fontSize: 14),
               ),
               const SizedBox(height: 32),
-              // Profile row
+              // Edit name row
               _ProfileRow(
                 icon: Icons.person_outline,
                 label: displayName,
                 trailing: const Icon(Icons.edit_outlined,
                     color: kTextMuted, size: 20),
+                onTap: () => _editName(context, fullName),
               ),
               const SizedBox(height: 12),
               // Logout
@@ -75,6 +76,51 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _editName(BuildContext context, String currentName) async {
+    final ctrl = TextEditingController(text: currentName);
+    final newName = await showDialog<String>(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: kSurfaceColor,
+        title: const Text('Edit Name',
+            style: TextStyle(color: kTextWhite, fontWeight: FontWeight.w600)),
+        content: TextField(
+          controller: ctrl,
+          autofocus: true,
+          textCapitalization: TextCapitalization.words,
+          style: const TextStyle(color: kTextWhite),
+          decoration: const InputDecoration(
+            hintText: 'Full name',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel', style: TextStyle(color: kTextMuted)),
+          ),
+          TextButton(
+            onPressed: () {
+              final v = ctrl.text.trim();
+              if (v.isNotEmpty) Navigator.pop(context, v);
+            },
+            child: const Text('Save',
+                style: TextStyle(
+                    color: kPrimaryColor, fontWeight: FontWeight.w600)),
+          ),
+        ],
+      ),
+    );
+    ctrl.dispose();
+    if (newName != null && context.mounted) {
+      final error =
+          await context.read<AuthService>().updateFullName(newName);
+      if (error != null && context.mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(error)));
+      }
+    }
   }
 
   Future<void> _confirmLogout(BuildContext context) async {

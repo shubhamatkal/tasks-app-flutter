@@ -85,19 +85,20 @@ class _LoginScreenState extends State<LoginScreen>
                     ),
                   ),
                   const SizedBox(height: 28),
-                  const _FieldLabel('Username'),
+                  const _FieldLabel('Email Address'),
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _usernameCtrl,
+                    keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
                     style: const TextStyle(color: kTextWhite, fontSize: 16),
                     decoration: const InputDecoration(
-                      hintText: 'your username',
-                      prefixIcon: Icon(Icons.person_outline,
+                      hintText: 'your@email.com',
+                      prefixIcon: Icon(Icons.email_outlined,
                           color: kTextMuted, size: 22),
                     ),
                     validator: (v) => (v == null || v.trim().isEmpty)
-                        ? 'Enter your username'
+                        ? 'Enter your email'
                         : null,
                   ),
                   const SizedBox(height: 20),
