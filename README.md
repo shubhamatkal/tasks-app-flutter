@@ -1,6 +1,9 @@
 # DayTask — Personal Task Tracker
 
 A Flutter task management app, weekly calendar view, and Supabase backend. as a part of assignment.
+
+**Figma Design:** [ui](https://www.figma.com/design/SCNpmEbYR6Iu8a1Zl2Xh6z/techstax_assignment_ui?node-id=0-1&t=hReihGwONCSOUj8p-1)
+
 ---
 
 ## Features
